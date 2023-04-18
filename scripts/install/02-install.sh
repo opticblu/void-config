@@ -22,7 +22,7 @@ print () {
 root_dataset=$(cat /tmp/root_dataset)
 
 # Set mirror and architecture
-REPO=https://alpha.de.repo.voidlinux.org/current
+REPO=https://repo-fastly.voidlinux.org/current/
 ARCH=x86_64
 
 # Copy keys
@@ -77,35 +77,16 @@ cp /etc/hostid /mnt/etc/hostid
 cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache
 cp /etc/zfs/zroot.key /mnt/etc/zfs
 
-# Configure iwd
-cat > /mnt/etc/iwd/main.conf <<"EOF"
-[General]
-UseDefaultInterface=true
-EnableNetworkConfiguration=true
-EOF
-
-# Configure DNS
-cat >> /mnt/etc/resolvconf.conf <<"EOF"
-resolv_conf=/etc/resolv.conf
-name_servers_append="1.1.1.1 9.9.9.9"
-name_server_blacklist="192.168.*"
-EOF
-
-# Enable ip forward
-cat > /mnt/etc/sysctl.conf <<"EOF"
-net.ipv4.ip_forward = 1
-EOF
-
 # Prepare locales and keymap
 print 'Prepare locales and keymap'
-echo 'KEYMAP=fr' > /mnt/etc/vconsole.conf
-echo 'fr_FR.UTF-8 UTF-8' > /mnt/etc/default/libc-locales
-echo 'LANG="fr_FR.UTF-8"' > /mnt/etc/locale.conf
+echo 'KEYMAP=us' > /mnt/etc/vconsole.conf
+echo 'en_US.UTF-8 UTF-8' > /mnt/etc/default/libc-locales
+echo 'LANG="en_US.UTF-8"' > /mnt/etc/locale.conf
 
 # Configure system
 cat >> /mnt/etc/rc.conf << EOF
-KEYMAP="fr"
-TIMEZONE="Europe/Paris"
+KEYMAP="us"
+TIMEZONE="America/Chicago"
 HARDWARECLOCK="UTC"
 EOF
 
@@ -206,7 +187,7 @@ EOF
 
 mkdir -p /mnt/etc/cmdline.d/
 cat > /mnt/etc/cmdline.d/keymap.conf <<EOF
-rd.vconsole.keymap=fr
+rd.vconsole.keymap=us
 EOF
 
 # Set cmdline
@@ -217,7 +198,7 @@ print 'Generate zbm'
 chroot /mnt/ /bin/bash -e <<"EOF"
 
   # Export locale
-  export LANG="fr_FR.UTF-8"
+  export LANG="en_US.UTF-8"
 
   # Generate initramfs, zfsbootmenu
   xbps-reconfigure -fa
