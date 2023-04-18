@@ -1,5 +1,8 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
+
+eoli3n made this, if you like it, fork it from him because he is obviously competent and I am barely literate
+
 ### ZFS root install
 
 - Native encryption aes-256-gcm
